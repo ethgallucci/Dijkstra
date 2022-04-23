@@ -14,9 +14,19 @@ struct Edge {
 };
 
 struct VertexNode {
-  unsigned distance;
-  const VertexNode* predV; 
+  int value;
+  unsigned distanceFromSrc;
+  const VertexNode* predecessorV; 
 };
+
+// Util func to create a new vertex
+VertexNode makeVertex(int v) {
+  VertexNode* newV = new VertexNode;
+  newV->value = v;
+  newV->distanceFromSrc = 0;
+  newV->predecessorV = 0;
+  return *newV;
+}
 
 class Graph {
   public:
@@ -38,9 +48,30 @@ class Graph {
     void addEdge(Edge const &edge) {
       adjMatrix[edge.src][edge.dest] = 1;
       adjMatrix[edge.dest][edge.src] = 1;
+    
+      bool hasSrc, hasDest = false;
+      for(auto v = 0; v < vertices.size(); v++) {
+        // ensure we've stored both (src, dest) vertices
+        if(vertices[v].value == edge.src) {
+          hasSrc = true; 
+        }
+        else if(vertices[v].value == edge.dest) {
+          hasDest = true;
+        }
+
+        if(hasSrc && hasDest) { break; }
+      } 
+
+      if(hasSrc && hasDest) { return; }
+      else if(hasSrc && !hasDest) {
+        vertices.push_back(makeVertex(edge.dest));
+      }
+      else {
+        vertices.push_back(makeVertex(edge.src));
+      }
     }
 
-    void print() {
+    void printMatrix() {
       int i, j;
       for(i = 0; i < RC_MATRIX_MAX; i++) {
         for(j = 0; j < RC_MATRIX_MAX; j++) {
@@ -48,6 +79,13 @@ class Graph {
         }
         std::cout << '\n';
       }
+    }
+
+    void printVertices() {
+      for(auto v = 0; v < this->vertices.size(); v++) {
+        std::cout << this->vertices[v].value << "\t-->\t" << this->vertices[v].distanceFromSrc << '\n'; 
+      }
+      std::cout << '\n';
     }
 };
 

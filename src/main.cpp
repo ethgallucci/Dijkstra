@@ -6,5 +6,9 @@ int main() {
   g.addEdge(Edge(1, 2));
   g.addEdge(Edge(2, 3));
 
-  g.print();
+  std::cout << "----Adjacency Matrix----\n";
+  g.printMatrix();
+
+  std::cout << "All Vertices   -D\n";
+  g.printVertices();
 }
