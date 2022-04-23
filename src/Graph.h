@@ -51,6 +51,8 @@ class Graph {
     
       bool hasSrc, hasDest = false;
       for(auto v = 0; v < vertices.size(); v++) {
+        // logic gate
+        if(hasSrc && hasDest) { break; }
         // ensure we've stored both (src, dest) vertices
         if(vertices[v].value == edge.src) {
           hasSrc = true; 
@@ -58,8 +60,6 @@ class Graph {
         else if(vertices[v].value == edge.dest) {
           hasDest = true;
         }
-
-        if(hasSrc && hasDest) { break; }
       } 
 
       if(hasSrc && hasDest) { return; }
