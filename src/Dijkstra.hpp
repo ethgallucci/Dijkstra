@@ -1,4 +1,4 @@
-#include "Graph.h"
+#include "Graph.hpp"
 
 int findMinDistanceVertex(int weights[], bool includedAlready[])
 {
