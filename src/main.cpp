@@ -1,14 +1,17 @@
-#include "Graph.h"
+#include "Dijkstra.h"
 
-int main() {
-  Graph g(10);
-  g.addEdge(Edge(0, 1));
-  g.addEdge(Edge(1, 2));
-  g.addEdge(Edge(2, 3));
+int main()
+{
+  Graph driver(10);
+  driver.addEdge(Edge(0, 1, 9));
+  driver.addEdge(Edge(1, 2, 5));
+  driver.addEdge(Edge(2, 3, 2));
+  driver.addEdge(Edge(3, 0, 1));
+  driver.addEdge(Edge(5, 1, 2));
 
+  std::cout << "Running Dijkstra's single source shortest path algorithm on the following adjacency matrix..." << std::endl;
   std::cout << "----Adjacency Matrix----\n";
-  g.printMatrix();
+  driver.printMatrix();
 
-  std::cout << "All Vertices   -D\n";
-  g.printVertices();
+  DijkstraShortestPath(driver.adjMatrix, 0);
 }

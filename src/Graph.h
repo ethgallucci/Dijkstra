@@ -1,92 +1,58 @@
 #ifndef GRAPH_H
-# define GRAPH_H
+#define GRAPH_H
 
 #include <iostream>
 #include <vector>
 
-#define RC_MATRIX_MAX 10
+#define HALF_MATRIX_MAX 5
 
-struct Edge {
+struct Edge
+{
   unsigned src, dest;
-  Edge(unsigned s, unsigned d) {
-    src = s, dest = d;
+  unsigned weight;
+  Edge(unsigned s, unsigned d, unsigned w)
+  {
+    src = s, dest = d, weight = w;
   }
 };
 
-struct VertexNode {
-  int value;
-  unsigned distanceFromSrc;
-  const VertexNode* predecessorV; 
-};
+class Graph
+{
+public:
+  int adjMatrix[HALF_MATRIX_MAX][HALF_MATRIX_MAX];
 
-// Util func to create a new vertex
-VertexNode makeVertex(int v) {
-  VertexNode* newV = new VertexNode;
-  newV->value = v;
-  newV->distanceFromSrc = 0;
-  newV->predecessorV = 0;
-  return *newV;
-}
-
-class Graph {
-  public:
-    std::vector<VertexNode> vertices;
-    int adjMatrix[RC_MATRIX_MAX][RC_MATRIX_MAX];     
-
-    Graph(unsigned V) {
-      vertices.resize(V);
-      for (int i = 0; i < RC_MATRIX_MAX; i++)
+  Graph(unsigned V)
+  {
+    // Initialize all vertices to 0
+    for (int i = 0; i < HALF_MATRIX_MAX; i++)
+    {
+      for (int j = 0; j < HALF_MATRIX_MAX; j++)
       {
-        for (int j = 0; j < RC_MATRIX_MAX; j++)
-        {
-          adjMatrix[i][j] = 0;
-          adjMatrix[j][i] = 0;
-        }
+        adjMatrix[i][j] = 0;
+        adjMatrix[j][i] = 0;
       }
     }
+  }
 
-    void addEdge(Edge const &edge) {
-      adjMatrix[edge.src][edge.dest] = 1;
-      adjMatrix[edge.dest][edge.src] = 1;
-    
-      bool hasSrc, hasDest = false;
-      for(auto v = 0; v < vertices.size(); v++) {
-        // logic gate
-        if(hasSrc && hasDest) { break; }
-        // ensure we've stored both (src, dest) vertices
-        if(vertices[v].value == edge.src) {
-          hasSrc = true; 
-        }
-        else if(vertices[v].value == edge.dest) {
-          hasDest = true;
-        }
-      } 
+  void addEdge(Edge const &edge)
+  {
+    adjMatrix[edge.dest][edge.src] = edge.weight;
+    adjMatrix[edge.src][edge.dest] = edge.weight;
+  }
 
-      if(hasSrc && hasDest) { return; }
-      else if(hasSrc && !hasDest) {
-        vertices.push_back(makeVertex(edge.dest));
-      }
-      else {
-        vertices.push_back(makeVertex(edge.src));
-      }
-    }
-
-    void printMatrix() {
-      int i, j;
-      for(i = 0; i < RC_MATRIX_MAX; i++) {
-        for(j = 0; j < RC_MATRIX_MAX; j++) {
-          std::cout <<  this->adjMatrix[i][j];
-        }
-        std::cout << '\n';
-      }
-    }
-
-    void printVertices() {
-      for(auto v = 0; v < this->vertices.size(); v++) {
-        std::cout << this->vertices[v].value << "\t-->\t" << this->vertices[v].distanceFromSrc << '\n'; 
+  void printMatrix()
+  {
+    int i, j;
+    for (i = 0; i < HALF_MATRIX_MAX; i++)
+    {
+      for (j = 0; j < HALF_MATRIX_MAX; j++)
+      {
+        std::cout << this->adjMatrix[i][j];
       }
       std::cout << '\n';
     }
+    std::cout << '\n';
+  }
 };
 
 #endif
