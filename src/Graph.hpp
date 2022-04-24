@@ -2,15 +2,16 @@
 #define GRAPH_H
 
 #include <iostream>
+#include <stdint.h>
 #include <vector>
 
 #define HALF_MATRIX_MAX 5
 
 struct Edge
 {
-  unsigned src, dest;
-  unsigned weight;
-  Edge(unsigned s, unsigned d, unsigned w)
+  uint32_t src, dest;
+  uint32_t weight;
+  Edge(uint32_t s, uint32_t d, uint32_t w)
   {
     src = s, dest = d, weight = w;
   }
@@ -21,7 +22,7 @@ class Graph
 public:
   int adjMatrix[HALF_MATRIX_MAX][HALF_MATRIX_MAX];
 
-  Graph(unsigned V)
+  Graph(uint32_t V)
   {
     // Initialize all vertices to 0
     for (int i = 0; i < HALF_MATRIX_MAX; i++)
