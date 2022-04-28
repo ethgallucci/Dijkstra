@@ -1,13 +1,3 @@
-/*
-
-Ethan Gallucci
-COMSC-210-5068
-
-Lab: Graphs --- Dijkstra's Algorithm
-04-22-2022
-OSX Monterey 12.3.1, g++ 13.1.6
-*/
-
 #ifndef GRAPH_H
 #define GRAPH_H
 
